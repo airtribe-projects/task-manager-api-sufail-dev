@@ -34,5 +34,11 @@
     "title": "Meet a friend",
     "description": "Talk about trip",
     "completed": false
+  },
+  {
+    "id": 10,
+    "title": "do something better",
+    "description": "Talk to a person",
+    "completed": true
   }
 ]

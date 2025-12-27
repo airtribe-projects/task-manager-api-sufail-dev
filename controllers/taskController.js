@@ -2,16 +2,30 @@ const path = require("path");
 const fs = require("fs");
 
 const { readTasks, writeTasks } = require("../services/taskupdator");
+const { sourceMapsEnabled } = require("process");
 
 // const dataPath = path.join(__dirname, "../data", "data.json");
 // const tasks = JSON.parse(fs.readFileSync(dataPath, "utf-8"));
 
 const getAllTasks = (req, res) => {
+  const { completed } = req.query;
+  console.log(typeof completed);
   const tasks = readTasks();
+  let filteredTasks = tasks;
+  if (completed !== undefined) {
+    if (completed != "true" && completed != "false") {
+      return res.status(400).json({
+        message: "completed must be true or false",
+      });
+    }
+    const completedBoolean = completed === "true";
+    filteredTasks = tasks.filter((task) => task.completed === completedBoolean);
+  }
+
   return res.json({
     status: "success",
     data: {
-      tasks: tasks,
+      tasks: filteredTasks,
     },
   });
 };
